@@ -21,6 +21,11 @@
 						<td>{{ gender.id }}</td>
 						<td>{{ gender.name }}</td>
 						<td>{{ gender.enable ? 'Actif' : 'Inactif' }}</td>
+						<td>
+							<div class="cell-flex">
+								<a href="{{ path('admin.gender.update', {id: gender.id}) }}" class="btn btn-warning">Modifier</a>
+							</div>
+						</td>
 					</tr>
 
 				{% endfor %}
