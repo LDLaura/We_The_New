@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Administration des genres
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-2">
+		<h1 class="text-center">Administration des genres</h1>
+		<a href="{{ path('admin.gender.create') }}" class="btn btn-primary mt-2">Créer un genre</a>
+		<table class="mt-4">
+		
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nom</th>
+					<th>Actif</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for gender in gender %}
+					<tr>
+						<td>{{ gender.id }}</td>
+						<td>{{ gender.name }}</td>
+						<td>{{ gender.enable ? 'Actif' : 'Inactif' }}</td>
+						<td>
+							<div class="cell-flex">
+								<a href="{{ path('admin.gender.update', {id: gender.id}) }}" class="btn btn-warning">Modifier</a>
+								{% include 'Backend/Gender/_deleteForm.html.twig' %}
+							</div>
+						</td>
+					</tr>
+
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
+{% endblock %}
