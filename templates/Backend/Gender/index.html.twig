@@ -1,20 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello GenderController!{% endblock %}
+{% block title %}
+	Administration des genres
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<section class="container mt-2">
+		<h1 class="text-center">Administration des genres</h1>
+		<table class="mt-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nom</th>
+					<th>Actif</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for gender in gender %}
+					<tr>
+						<td>{{ gender.id }}</td>
+						<td>{{ gender.name }}</td>
+						<td>{{ gender.enable ? 'Actif' : 'Inactif' }}</td>
+					</tr>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/Laura Despesse/Documents/Formation DWWM/Symfony/WeTheNew/src/Controller/Backend/GenderController.php</code></li>
-        <li>Your template at <code>C:/Users/Laura Despesse/Documents/Formation DWWM/Symfony/WeTheNew/templates/backend/gender/index.html.twig</code></li>
-    </ul>
-</div>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
 {% endblock %}

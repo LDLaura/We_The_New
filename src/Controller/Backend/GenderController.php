@@ -4,6 +4,7 @@ namespace App\Controller\Backend;
 
 use App\Entity\Gender;
 use App\Form\GenderType;
+use App\Repository\GenderRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,13 @@ class GenderController extends AbstractController
     public function __construct(
         private EntityManagerInterface $em,
     ){  
+    }
+
+    #[Route('', name : '.index', methods:['GET', 'POST'])]
+    public function index(GenderRepository $repo): Response{
+        return $this->render('Backend/Gender/index.html.twig', [
+            'gender' => $repo->findAll(),
+        ]);
     }
 
     #[Route('/create', name: '.create', methods:['GET', 'POST'])]
