@@ -8,6 +8,7 @@ use App\Repository\GenderRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -70,9 +71,27 @@ class GenderController extends AbstractController
 
             return $this->redirectToRoute('admin.gender.index');
         }
-        
+
         return $this->render('Backend/Gender/update.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/delete', name:'.delete', methods:['POST'])]
+    public function delete(?Gender $gender, Request $request): RedirectResponse{
+        if (!$gender) {
+            $this->addFlash('error', 'La categorie demandée n\'existe pas');
+
+            return $this->redirectToRoute('admin.gender.index');
+        }
+        if ($this->isCsrfTokenValid('delete' .$gender->getId(), $request->request->get('token'))) {
+            $this->em->remove($gender);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Le genre a bien été supprimé');
+        } else {
+            $this->addFlash('error', 'Le jeton CSRF a bien été supprimé');
+        }
+        return $this->redirectToRoute('admin.gender.index');
     }
 }
