@@ -81,8 +81,7 @@ class UserType extends AbstractType
             ])
             ->add('birthDate', null, [
                 'widget' => 'single_text'
-            ])
-            ->add('defaultAdressId');
+            ]);
 
         // if ($options['isAdmin']) {
         //     $builder

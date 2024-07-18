@@ -22,6 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Email()]
     #[Assert\Length(
         max: 255,
         maxMessage: 'l\email ne doit pas dépasser {{ limit }} caractères'
@@ -48,17 +49,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(max: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 10, nullable: true)]
+    #[ORM\Column(length: 20, nullable: true)]
     #[Assert\Regex(
-        pattern: '/^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/',
-        message: 'Le numéro de téléphone doit commencer par +33 ou 0')]
+        pattern: '/^(?:(?:+|00)33[\s.-]?[67]|0[\s.-]?[67])(?:[\s.-]*\d{2}){4}$/',
+        message: 'Numéro de téléphone invalide'
+    )]
     private ?string $telephone = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthDate = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $defaultAdressId = null;
 
     public function getId(): ?int
     {
@@ -182,15 +182,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDefaultAdressId(): ?int
-    {
-        return $this->defaultAdressId;
-    }
-
-    public function setDefaultAdressId(?int $defaultAdressId): static
-    {
-        $this->defaultAdressId = $defaultAdressId;
-
-        return $this;
-    }
 }
