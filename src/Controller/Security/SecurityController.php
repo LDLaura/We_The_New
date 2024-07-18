@@ -15,15 +15,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/login', name: 'app.login')]
-    public function index(AuthenticationUtils $authenticationUtils): Response
+    #[Route('/login', name: 'app.login', methods:['GET', 'POST'])]
+    public function LOGIN(AuthenticationUtils $authUtils): Response
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-        
         return $this->render('Security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
+            'error' => $authUtils->getLastAuthenticationError(),
+            'lastUsername' => $authUtils->getLastUsername(),
+            
         ]);
     }
 
