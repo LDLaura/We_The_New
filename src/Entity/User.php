@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastName = null;
 
     #[ORM\Column(length: 10, nullable: true)]
+    #[Assert\Regex(
+        pattern: '/^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/',
+        message: 'Le numéro de téléphone doit commencer par +33 ou 0')]
     private ?string $telephone = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
