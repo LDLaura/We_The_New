@@ -41,18 +41,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length:255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length:255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 20, nullable: true)]
     #[Assert\Regex(
-        pattern: '/^(?:(?:+|00)33[\s.-]?[67]|0[\s.-]?[67])(?:[\s.-]*\d{2}){4}$/',
-        message: 'Numéro de téléphone invalide'
+        pattern: '/^(?:(?:\+|00)33[\s.-]?[67]|0[\s.-]?[67])(?:[\s.-]*\d{2}){4}$/',
+        message: 'Invalid phone number'
     )]
     private ?string $telephone = null;
 
@@ -186,5 +186,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
 }

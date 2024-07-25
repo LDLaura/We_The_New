@@ -48,54 +48,44 @@ class UserType extends AbstractType
                 ],
                 'second_options' => [
                     'label' => 'Confirmer le mot de passe',
-                    'attr' => [
-                        'placeholder' => 'S3CR3T'
-                    ]
                 ],
                 'mapped' => false,
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
-                'attr' => [
-                    'placeholder' => 'John',
-                ]
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
-                'attr' => [
-                    'placeholder' => 'Doe',
-                ]
             ])
             ->add('telephone', TelType::class, [
                 'label' => 'Téléphone',
-                'attr' => [
-                    'placeholder' => '0000000000'
-                ]
             ])
             ->add('birthDate', null, [
                 'widget' => 'single_text'
             ]);
 
-        // if ($options['isAdmin']) {
-        //     $builder
-        //         ->remove('password')
-        //         ->add('roles', ChoiceType::class, [
-        //             'label' => 'Rôle',
-        //             'choices' => [
-        //                 'Utilisateur' => 'ROLE_USER',
-        //                 'Editeur' => 'ROLE_EDITOR',
-        //                 'Administrateur' => 'ROLE_ADMIN',
-        //             ],
-        //             'expanded' => true,
-        //             'multiple' => true,
-        //         ]);
-        // }
+
+        if ($options['isAdmin']) {
+            $builder
+                ->remove('password')
+                ->add('roles', ChoiceType::class, [
+                    'label' => 'Rôle',
+                    'choices' => [
+                        'Utilisateur' => 'ROLE_USER',
+                        'Editeur' => 'ROLE_EDITOR',
+                        'Administrateur' => 'ROLE_ADMIN',
+                    ],
+                    'expanded' => true,
+                    'multiple' => true,
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'isAdmin' => false,
         ]);
     }
 }
