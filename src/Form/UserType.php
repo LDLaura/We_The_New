@@ -70,13 +70,6 @@ class UserType extends AbstractType
                 'label' => 'Téléphone',
                 'attr' => [
                     'placeholder' => '0000000000'
-                ],
-                'constraints' => [
-                    new NotBlank(),
-                    new Regex(
-                        pattern: '/^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$/',
-                        message: 'Le numéro de téléphone doit commencer par +33 ou 0'
-                    )
                 ]
             ])
             ->add('birthDate', null, [
