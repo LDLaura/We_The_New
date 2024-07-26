@@ -27,6 +27,7 @@
                         <td>
                             <div class="cell-flex">
                                 <a href="{{ path('admin.model.update', {id: model.id}) }}" class="btn btn-warning">Modifier</a>
+                                {% include 'Backend/Model/_deleteForm.html.twig' %}
                             </div>
                         </td>
                 {% endfor %}

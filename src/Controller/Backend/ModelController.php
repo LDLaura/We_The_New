@@ -7,6 +7,7 @@ use App\Form\ModelType;
 use App\Repository\ModelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -69,5 +70,24 @@ class ModelController extends AbstractController
         return $this->render('Backend/Model/update.html.twig', [
             'form'=> $form,
         ]);
+    }
+
+    #[Route('/{id}/delete', name:'.delete', methods: ['POST'])]
+    public function delete(?Model $model, Request $request): RedirectResponse
+    {
+        if (!$model) {
+            $this->addFlash('success', 'Le modèle a bien été supprimé');
+
+            return $this->render('admin.model.index');
+        }
+        if ($this->isCsrfTokenValid('delete' .$model->getId(), $request->request->get('token'))) {
+            $this->em->remove($model);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Le modèle a bien été supprimé');
+        } else {
+            $this->addFlash('error', 'Le jeton CSRF a bien été supprimé');
+        }
+        return $this->redirectToRoute('admin.model.index');
     }
 }
