@@ -4,6 +4,7 @@ namespace App\Controller\Backend;
 
 use App\Entity\Model;
 use App\Form\ModelType;
+use App\Repository\ModelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,11 +19,11 @@ class ModelController extends AbstractController
     ) {
     }
 
-    #[Route('', name: '.index')]
-    public function index(): Response
+    #[Route('', name: '.index', methods:['GET'])]
+    public function index(ModelRepository $repo): Response
     {
-        return $this->render('backend/model/index.html.twig', [
-            'controller_name' => 'ModelController',
+        return $this->render('Backend/Model/index.html.twig', [
+            'model' => $repo->findAll(),
         ]);
     }
 
@@ -43,6 +44,30 @@ class ModelController extends AbstractController
         }
         return $this->render('Backend/Model/create.html.twig', [
             'form' => $form
+        ]);
+    }
+
+    #[Route('/{id}/update', name:'.update', methods:['GET', 'POST'])]
+    public function update(?Model $model, Request $request): Response
+    {
+        if (!$model) {
+            $this->addFlash('error', 'Le modèle n\'existe pas');
+
+            return $this->redirectToRoute('admin.model.index');
+        }
+        $form = $this->createForm(ModelType::class, $model);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($model);
+            $this->em->flush();
+
+            $this->addFlash('success','Le modèle a bien été modifié');
+
+            return $this->redirectToRoute('admin.model.index');
+        }
+        return $this->render('Backend/Model/update.html.twig', [
+            'form'=> $form,
         ]);
     }
 }

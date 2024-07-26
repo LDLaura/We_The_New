@@ -1,20 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ModelController!{% endblock %}
+{% block title %}
+    Administration des modèles
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/Laura Despesse/Documents/Formation DWWM/Symfony/WeTheNew/src/Controller/Backend/ModelController.php</code></li>
-        <li>Your template at <code>C:/Users/Laura Despesse/Documents/Formation DWWM/Symfony/WeTheNew/templates/backend/model/index.html.twig</code></li>
-    </ul>
-</div>
+	<section class="container mt-2">
+		<h1 class="text-center">Administration des modèles</h1>
+		<a href="{{ path('admin.model.create') }}" class="btn btn-primary mt-2">Créer un modèle</a>
+		<table class="mt-4">
+			<thead>
+				<tr>
+                    <th>Id</th>
+					<th>Nom</th>
+					<th>Slug</th>
+					<th>Actif</th>
+				</tr>
+			</thead>
+            <tbody>
+                {% for model in model %}
+                    <tr>
+						<td>{{ model.id }}</td>
+						<td>{{ model.name }}</td>
+                        <td>{{ model.slug }}</td>
+						<td>{{ model.enable ? 'Actif' : 'Inactif' }}</td>
+                        <td>
+                            <div class="cell-flex">
+                                <a href="{{ path('admin.model.update', {id: model.id}) }}" class="btn btn-warning">Modifier</a>
+                            </div>
+                        </td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
 {% endblock %}
