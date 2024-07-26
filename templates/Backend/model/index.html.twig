@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Administration des modèles
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-2">
+		<h1 class="text-center">Administration des modèles</h1>
+		<a href="{{ path('admin.model.create') }}" class="btn btn-primary mt-2">Créer un modèle</a>
+		<table class="mt-4">
+			<thead>
+				<tr>
+                    <th>Id</th>
+					<th>Nom</th>
+					<th>Slug</th>
+					<th>Actif</th>
+				</tr>
+			</thead>
+            <tbody>
+                {% for model in model %}
+                    <tr>
+						<td>{{ model.id }}</td>
+						<td>{{ model.name }}</td>
+                        <td>{{ model.slug }}</td>
+						<td>{{ model.enable ? 'Actif' : 'Inactif' }}</td>
+                        <td>
+                            <div class="cell-flex">
+                                <a href="{{ path('admin.model.update', {id: model.id}) }}" class="btn btn-warning">Modifier</a>
+                                {% include 'Backend/Model/_deleteForm.html.twig' %}
+                            </div>
+                        </td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
