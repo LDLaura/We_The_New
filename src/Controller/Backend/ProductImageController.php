@@ -4,6 +4,7 @@ namespace App\Controller\Backend;
 
 use App\Entity\ProductImage;
 use App\Form\ProductImageType;
+use App\Repository\ProductImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,10 +21,10 @@ class ProductImageController extends AbstractController
     }
 
     #[Route('', name: '.index')]
-    public function index(): Response
+    public function index(ProductImageRepository $repo): Response
     {
         return $this->render('Backend/Product_image/index.html.twig', [
-            'controller_name' => 'ProductImageController',
+            'productimage' => $repo->findAll(),
         ]);
     }
 
