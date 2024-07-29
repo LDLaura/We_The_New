@@ -71,4 +71,23 @@ class MarqueController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}/delete', name:'.delete', methods:['POST'])]
+    public function delete(?Marque $marque, Request $request): RedirectResponse
+    {
+        if (!$marque) {
+            $this->addFlash('error', 'La marque demandée n\'existe pas');
+
+            return $this->redirectToRoute('admin.marque.index');
+        }
+        if ($this->isCsrfTokenValid('delete' .$marque->getId(), $request->request->get('token'))) {
+            $this->em->remove($marque);
+            $this->em->flush();
+
+            $this->addFlash('success', 'La marque a bien été supprimée');
+        } else {
+            $this->addFlash('error', 'Le jeton CSRF a bien été supprimé');
+        }
+        return $this->redirectToRoute('admin.marque.index');
+    }
 }
