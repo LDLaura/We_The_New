@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Administration des marques
+{% endblock %}
+
+{% block body %}
+    <section class="container mt-2">
+        <h1 class="text-center">Administration des marques</h1>
+        <table class="mt-4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Slug</th>
+                    <th>Description</th>
+                    <th>Nom Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for marque in marque %}
+                    <tr>
+                        <td>{{ marque.id }}</td>
+                        <td>{{ marque.name }}</td>
+                        <td>{{ marque.slug }}</td>
+                        <td>{{ marque.description }}</td>
+                        <td>{{ marque.imageName }}</td>
+                        <td>
+                            <div class="cell-flex">
+                                <a href="{{ path('admin.marque.update', {id: marque.id}) }}" class="btn btn-warning">Modifier</a>
+                                {% include 'Backend/Marque/_deleteForm.html.twig' %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+{% endblock %}
