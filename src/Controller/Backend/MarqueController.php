@@ -76,11 +76,12 @@ class MarqueController extends AbstractController
     public function delete(?Marque $marque, Request $request): RedirectResponse
     {
         if (!$marque) {
-            $this->addFlash('error', 'La marque demandée n\'existe pas');
+            $this->addFlash('success', 'La marque demandée n\'existe pas');
 
             return $this->redirectToRoute('admin.marque.index');
         }
-        if ($this->isCsrfTokenValid('delete' .$marque->getId(), $request->request->get('token'))) {
+        
+        if ($this->isCsrfTokenValid('delete' . $marque->getId(), $request->request->get('token'))) {
             $this->em->remove($marque);
             $this->em->flush();
 

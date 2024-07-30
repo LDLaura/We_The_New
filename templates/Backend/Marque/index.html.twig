@@ -7,6 +7,7 @@
 {% block body %}
     <section class="container mt-2">
         <h1 class="text-center">Administration des marques</h1>
+        <a href="{{ path('admin.marque.create') }}" class="btn btn-primary mt-2">Créer une marque</a>
         <table class="mt-4">
             <thead>
                 <tr>
@@ -28,7 +29,7 @@
                         <td>
                             <div class="cell-flex">
                                 <a href="{{ path('admin.marque.update', {id: marque.id}) }}" class="btn btn-warning">Modifier</a>
-                                {% include 'Backend/Marque/_deleteForm.html.twig' %}
+                                {% include "Backend/Marque/_deleteForm.html.twig" %}
                             </div>
                         </td>
                     </tr>
